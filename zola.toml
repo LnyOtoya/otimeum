@@ -45,3 +45,6 @@ main_menu = [
     { name = "归档", url = "archive", trailing_slash = true },
 ]
 
+[extra.content_security_policy]
+enable = false
+allowed_domains = ["https://steady-empanada-d26bc2.netlify.app"]

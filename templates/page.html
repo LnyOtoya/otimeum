@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{%- block title -%}
+{{ page.title }} | {{ config.title }}
+{%- endblock -%}
+
+{%- block description -%}
+    {%- if page.description %}
+    <meta name="description" content="{{ page.description | markdown(inline=true) | striptags }}">
+    {%- elif page.summary %}
+    <meta name="description" content="{{ page.summary | newlines_to_br | replace(from="<br>", to=" ") | striptags | trim_end(pat=".") | replace(from='"', to="&quot;") | replace(from="&", to="&amp;") | safe }}…">
+    {%- elif config.description %}
+    <meta name="description" content="{{ config.description }}">
+    {%- endif %}
+{%- endblock -%}
+
+{%- block translations -%}
+    {%- for translation in page.translations -%}
+    <link rel="alternate" hreflang="{{ translation.lang }}" href="{{ translation.permalink | safe }}">
+    {% endfor -%}
+{%- endblock -%}
+
+{%- block main -%}
+{%- set sidebar_setting = page.extra.sidebar | default(value=-1) -%}
+{%- set sidebar_disabled = sidebar_setting == false -%}
+{%- set has_custom_sidebar = sidebar_setting is string -%}
+{%- set has_toc = page.toc | length >= 2 -%}
+{%- set show_sidebar = not sidebar_disabled and (has_custom_sidebar or has_toc) -%}
+{%- set __indent_1 | indent | indent | safe -%}
+<article class="post content{%- if show_sidebar %} has-sidebar{%- endif %}">
+    {{ <post.header page heading="h1" config lang /> | indent | safe }}
+{%- endset -%}
+{{ __indent_1 }}
+
+{{ page.content
+    | replace(from='<input disabled="" type="checkbox" checked=""/>', to='<input disabled="" type="checkbox" checked="" aria-label="Completed task item"/>')
+    | replace(from='<input disabled="" type="checkbox"/>', to='<input disabled="" type="checkbox" aria-label="Incomplete task item"/>')
+    | safe }}
+
+</article>
+{%- if show_sidebar %}
+{% include "partials/sidebar.html" %}
+{%- endif %}
+{%- if page.lower or page.higher %}
+<nav class="post-navigation">
+    <header class="post-navigation-title">
+        <h2>Read More Posts</h2>
+        <hr>
+    </header>
+    <div class="post-navigation-buttons">
+        {%- if page.lower %}
+        <a rel="next" href="{{ page.lower.permalink | safe }}" aria-label="Next article" aria-describedby="next-title">
+            &lt;&nbsp;[<span id="next-title">{{- page.lower.title | truncate(length=100, end="…") -}}</span>]
+        </a>
+        {%- endif %}
+        {%- if page.lower and page.higher %}
+        <span aria-hidden="true" role="separator">::</span>
+        {%- endif %}
+        {%- if page.higher %}
+        <a rel="prev" href="{{ page.higher.permalink | safe }}" aria-label="Prev article" aria-describedby="prev-title">
+            [<span id="prev-title">{{- page.higher.title | truncate(length=100, end="…") -}}</span>]&nbsp;&gt;
+        </a>
+        {%- endif %}
+    </div>
+</nav>
+{%- endif %}
+
+<div style="margin-top: 3rem;">
+    <div id="tcomment"></div>
+    <script src="/js/twikoo.all.min.js"></script>
+    <script>
+        twikoo.init({
+            envId: 'https://steady-empanada-d26bc2.netlify.app/.netlify/functions/twikoo',
+            el: '#tcomment'
+        });
+    </script>
+</div>
+
+{%- endblock -%}
