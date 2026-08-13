@@ -1,0 +1,42 @@
+base_url = "https://otimeum.de"
+title = "音也时馆"
+description = "若是你所期待, 那定会得到强烈的回响."
+
+
+theme = "tapestry"
+
+compile_sass = true
+build_search_index = true
+
+taxonomies = [
+    { name = "categories", feed = true },
+    { name = "tags", feed = true },
+]
+
+[markdown]
+github_alerts = true
+insert_anchor_links = "heading"
+
+[markdown.highlighting]
+theme = "catppuccin-mocha"
+
+[slugify]
+paths = "safe"
+taxonomies = "safe"
+anchors = "safe"
+
+[link_checker]
+internal_level = "warn"
+
+[extra]
+presentation_style = "scholarly"
+presentation_variant = "contemporary-research-lab"
+presentation_style_switcher = false
+
+main_menu = [
+    { name = "最新帖子", url = "post", trailing_slash = true },
+    { name = "关于我", url = "about", trailing_slash = true },
+    { name = "标签", url = "tags", trailing_slash = true },
+    { name = "归档", url = "archive", trailing_slash = true },
+]
+
