@@ -1,5 +1,6 @@
 +++
 date = '2024-10-25T23:23:00+08:00'
+updated = 2026-08-25T10:30:00+08:00
 draft = false
 title = 'Archlinux完善指南'
 slug = 'archlinux-post-install'
