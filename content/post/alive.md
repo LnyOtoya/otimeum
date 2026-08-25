@@ -1,15 +1,16 @@
 +++
 date = '2021-11-14T03:10:00+08:00'
 draft = false
-title = '短篇《活着》'
+title = '短篇随笔:《活着》与人生的终极意义'
 slug = 'alive'
 
 [taxonomies]
 categories = ['note']
 tags = ['life', 'essay']
-+++
 
-学校时看到一则漫画突然有感而发，遂写此文
+[extra]
+description = "人活着的终极意义是什么？学校时看到一则漫画突然有感而发，遂写此文。"
++++
 
 <!--more-->
 
