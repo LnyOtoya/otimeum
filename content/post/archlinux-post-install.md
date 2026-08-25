@@ -110,7 +110,7 @@ reboot
 
 ## 软件包管理
 
-启用 Arch linux 中文社区仓库,依然采用 USTC 源
+启用 Arch linux 中文社区仓库,依然采用 USTC 源(可选)
 编辑 /etc/pacman.conf
 ```bash
 vim /etc/pacman.conf
@@ -132,7 +132,7 @@ sudo pacman -Syyu
 sudo pacman -S archlinuxcn-keyring
 ```
 
-如果想使用32位程序，推荐启用 multilib 库，可在64位系统上运行和构建32位程序
+如果想使用32位程序，推荐启用 multilib 库，可在64位系统上运行和构建32位程序(可选)
 
 ```bash
 #编辑 /etc/pacman.conf
@@ -142,6 +142,12 @@ Include = /etc/pacman.d/mirrorlist
 ```
 
 也可以添加其他第三方库，[链接](https://wiki.archlinuxcn.org/wiki/%E9%9D%9E%E5%AE%98%E6%96%B9%E7%94%A8%E6%88%B7%E4%BB%93%E5%BA%93)
+
+
+当然，也可以通过安装 yay 或者 paru 来使用 aur 仓库(可选)
+```bash
+sudo pacman -S yay
+```
 
 
 ## 显卡驱动与视频硬解
@@ -304,10 +310,46 @@ grub-mkconfig -o /boot/grub/grub.cfg
 然后重启系统，即可在grub菜单中看到快照选项了
 
 另外，你可以通过cron守护进程定时创建快照，也可以通过snapper提供的两个脚本来定时创建和删除快照。
-还没完，具体的之后慢慢研究
 ```bash
 #自动按时创建快照
 snapper-timeline.timer
 #定期清理老旧快照
 snapper-cleanup.timer
 ```
+当中，个人并没有启用定时创建快照，因为个人使用，空间本来就不是很大，只开启定时清理老旧快照
+可以通过
+```bash
+sudo systemctl enable --now snapper-cleanup.timer
+```
+来开启定时清理，然后来来进行具体配置
+编辑配置文件
+```bash
+sudo vim /etc/snapper/configs/root
+```
+禁止自动创建快照(虽然没开启服务，但是双重保险)，自动清理
+```bash
+TIMELINE_CREATE="no"
+TIMELINE_CLEANUP="yes"
+```
+配置最多保留快照数，以及最多重要快照数
+```bash
+NUMBER_LIMIT="10"
+NUMBER_LIMIT_IMPORTANT="5"
+```
+
+当然也可以通过
+```bash
+sudo snapper -c root list
+```
+来查看root上的已有的分区，如果想要手动分区，则根据快照id(例如某个id为1)，通过
+```bash
+sudo snapper -c root delete 1
+```
+来删除，但是删除后之后的快照并不会延续1的位置，而是空出来，直接显示为2,不过无关大雅
+
+然后可以通过安装 snap-pac 包，自动在使用 pacman 更新系统或者安装/卸载软件时自动调用 snapper 创建快照
+```bash
+sudo pacman -S snap-pac
+```
+
+其实到这里基本就已经解决了大部分问题了，本篇完。
