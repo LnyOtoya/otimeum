@@ -38,6 +38,8 @@ presentation_style = "scholarly"
 presentation_variant = "contemporary-research-lab"
 presentation_style_switcher = false
 
+header_title = "Otimeum"
+
 main_menu = [
     { name = "最新帖子", url = "post", trailing_slash = true },
     { name = "关于我", url = "about", trailing_slash = true },
