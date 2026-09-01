@@ -34,17 +34,23 @@ anchors = "safe"
 internal_level = "warn"
 
 [extra]
-presentation_style = "scholarly"
-presentation_variant = "contemporary-research-lab"
+presentation_style = "collective"
+presentation_variant = "strata-geology"
 presentation_style_switcher = false
 
 header_title = "Otimeum"
+
 
 main_menu = [
     { name = "最新帖子", url = "post", trailing_slash = true },
     { name = "关于我", url = "about", trailing_slash = true },
     { name = "标签", url = "tags", trailing_slash = true },
     { name = "归档", url = "archive", trailing_slash = true },
+    { name = "Github", url = "https://github.com/LnyOtoya", new_tab = true },
+]
+
+socials = [
+    { name = "github", url = "https://github.com/LnyOtoya" },
 ]
 
 [extra.content_security_policy]
